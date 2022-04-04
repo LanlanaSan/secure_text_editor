@@ -16,7 +16,13 @@
   <widget class="QWidget" name="centralwidget">
    <layout class="QGridLayout" name="gridLayout">
     <item row="0" column="0">
-     <widget class="QPlainTextEdit" name="plainTextEdit"/>
+     <widget class="QPlainTextEdit" name="plainTextEdit">
+      <property name="font">
+       <font>
+        <family>Arial</family>
+       </font>
+      </property>
+     </widget>
     </item>
    </layout>
   </widget>
@@ -33,20 +39,19 @@
     <property name="title">
      <string>File</string>
     </property>
-    <addaction name="actionNew"/>
-    <addaction name="actionNew_window"/>
     <addaction name="actionOpen"/>
-    <addaction name="actionSave_3"/>
+    <addaction name="actionSave"/>
     <addaction name="actionExit"/>
    </widget>
    <widget class="QMenu" name="menuEdit">
     <property name="title">
      <string>Edit</string>
     </property>
+    <addaction name="actionUndo"/>
+    <addaction name="actionCut"/>
     <addaction name="actionCopy"/>
     <addaction name="actionPase"/>
     <addaction name="actionDelete"/>
-    <addaction name="actionFind"/>
    </widget>
    <widget class="QMenu" name="menuOption">
     <property name="title">
@@ -57,13 +62,13 @@
       <string>Font size</string>
      </property>
      <addaction name="action8"/>
-     <addaction name="action12_pt"/>
-     <addaction name="action24_pt"/>
-     <addaction name="action18_pt"/>
+     <addaction name="action9"/>
+     <addaction name="action10"/>
+     <addaction name="action11"/>
      <addaction name="action12"/>
      <addaction name="action14"/>
+     <addaction name="action16"/>
      <addaction name="action18"/>
-     <addaction name="action18_2"/>
      <addaction name="action20"/>
      <addaction name="action22"/>
      <addaction name="action24"/>
@@ -73,15 +78,6 @@
      <addaction name="action48"/>
      <addaction name="action72"/>
     </widget>
-    <widget class="QMenu" name="menuFont_style">
-     <property name="title">
-      <string>Font style</string>
-     </property>
-     <addaction name="actionItalic"/>
-     <addaction name="actionRegular"/>
-     <addaction name="actionBold"/>
-    </widget>
-    <addaction name="menuFont_style"/>
     <addaction name="menuFont_size"/>
    </widget>
    <addaction name="menuFile"/>
@@ -149,17 +145,17 @@
     <string>Save embedded</string>
    </property>
   </action>
-  <action name="action12_pt">
+  <action name="action9">
    <property name="text">
     <string>9</string>
    </property>
   </action>
-  <action name="action18_pt">
+  <action name="action11">
    <property name="text">
     <string>11</string>
    </property>
   </action>
-  <action name="action24_pt">
+  <action name="action10">
    <property name="text">
     <string>10</string>
    </property>
@@ -204,12 +200,12 @@
     <string>14</string>
    </property>
   </action>
-  <action name="action18">
+  <action name="action16">
    <property name="text">
     <string>16</string>
    </property>
   </action>
-  <action name="action18_2">
+  <action name="action18">
    <property name="text">
     <string>18</string>
    </property>
@@ -254,9 +250,24 @@
     <string>72</string>
    </property>
   </action>
-  <action name="actionSave_3">
+  <action name="actionSave">
    <property name="text">
     <string>Save</string>
+   </property>
+  </action>
+  <action name="actionUnderlined">
+   <property name="text">
+    <string>Underlined</string>
+   </property>
+  </action>
+  <action name="actionUndo">
+   <property name="text">
+    <string>Undo</string>
+   </property>
+  </action>
+  <action name="actionCut">
+   <property name="text">
+    <string>Cut</string>
    </property>
   </action>
  </widget>
