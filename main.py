@@ -1,7 +1,8 @@
-from ast import Delete
+from cryptography.fernet import Fernet
 from PyQt5.QtWidgets import *
 from PyQt5 import uic
 from PyQt5.QtGui import QFont
+import os
 
 class MyGUI(QMainWindow):
 
@@ -11,7 +12,7 @@ class MyGUI(QMainWindow):
         self.show()
 
         self.setWindowTitle("Secure Text Editor")
-
+        
         ######### file ######### 
         self.actionOpen.triggered.connect(self.open_file)
         self.actionSave.triggered.connect(self.save_file)
@@ -41,22 +42,62 @@ class MyGUI(QMainWindow):
         self.action36.triggered.connect(lambda: self.change_size(36))
         self.action48.triggered.connect(lambda: self.change_size(48))
         self.action72.triggered.connect(lambda: self.change_size(72))
-        
+
 #  OPEN WITH AUTO DECRYPTION #
     def open_file(self):
         options =QFileDialog.Options()
         filename, _ =QFileDialog.getOpenFileName(self,"Open File","","Text Files (*.txt);;Python Files (*.py)",options=options )
+        # read the key
+        with open('file_key.key', 'rb') as filekey:
+            key = filekey.read()
+
+        # crate instance of Fernet with encryption key
+        fernet = Fernet(key)
+
         if filename != "":
-            with open(filename, "r") as f:
+            # read the encrypted data
+            with open(filename, 'rb') as f:
+                file = f.read()
+
+            # decrypt data
+            decrypt_data = fernet.decrypt(file)
+
+            # write to new file
+            with open('newtext.txt', 'wb') as decryptedfile:
+                decryptedfile.write(decrypt_data)  
+            
+            # open new file
+            with open('newtext.txt', 'r') as f:
                 self.plainTextEdit.setPlainText(f.read())
 
+        print('File successfully decrypted')   
+        if os.path.exists("newtext.txt"):
+            os.remove("newtext.txt")
+  
 # SAVE WITH AUTO ENCRYPTION #
     def save_file(self):
         options =QFileDialog.Options()
         filename, _ =QFileDialog.getSaveFileName(self,"Save File","","Text Files (*.txt);;ALL Files (*)",options=options)
+        key = Fernet.generate_key()
+       
+        with open('file_key.key', 'wb') as filekey:
+            filekey.write(key)
+
+        fernet = Fernet(key)
+
         if filename != "":
-            with open(filename, "w") as f:
+            with open(filename, 'w') as f:
                 f.write(self.plainTextEdit.toPlainText())
+
+            with open(filename, 'rb') as f:
+                file = f.read()
+                
+            # encrypt
+            encrypt_file = fernet.encrypt(file)
+
+            with open(filename, 'wb') as encryptdata:
+                encryptdata.write(encrypt_file)
+        print('File successfully encrypted')
 
 # EXIT PROGRAM #
     def closeEvent(self,event):
@@ -100,6 +141,7 @@ def main():
     app = QApplication([])
     window = MyGUI()
     app.exec_()
+    
 
 if __name__ == '__main__':
     main()
